@@ -60,7 +60,7 @@ const Navbar = () => {
                         </motion.button>
                     </div>
                 </div>
-                <div className="w-8 h-8 block md:hidden text-white">
+                <div className="w-8 h-8 block md:hidden text-white z-50 ">
                     <motion.button onClick={() => setShowDiv(!showDiv)}
                         className="togglte-button bg-violet-500  rounded-md  "
                         whileHover={{ scale: 1.1 }}
@@ -75,7 +75,7 @@ const Navbar = () => {
                     </motion.button>
                     {showDiv && (
                         <div className="text-black">
-                            <div className=" w-48 h-72 bg-white  absolute top-16  ">
+                            <div className=" w-48 h-72 bg-white  absolute top-16 right-0  ">
                                 <Link className=" m-1 pl-5 shadow hover:shadow-lg pb-2 pt-3 block" href="/">Home</Link>
                                 <Link className=" m-1 pl-5 shadow hover:shadow-lg pb-2 pt-3 block " href="/about">About</Link>
                                 <Link className=" m-1 pl-5 shadow hover:shadow-lg pb-2 pt-3 block" href="/contact">Contact Us</Link>

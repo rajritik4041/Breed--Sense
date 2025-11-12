@@ -1,16 +1,19 @@
 "use client"
 import React from 'react'
 import { useForm } from "react-hook-form";
+import Link from 'next/link'
 import { useSession, signIn, signOut } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import axios from "axios"
+import { link } from 'framer-motion/client';
 
 function Page() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const onSubmit = (data) => {
     console.log(data);
   };
+
   const router = useRouter()
   const [loading, setloading] = useState(false)
   const [user, setuser] = useState({
@@ -22,7 +25,7 @@ function Page() {
 
   const [buttonDisabled, setbuttonDisabled] = useState(false)
 
-  const signup = async () => {
+  const signup = async (data) => {
     try {
       setloading(true)
       const response = await axios.post("/api/users/signup", user);
@@ -46,13 +49,16 @@ function Page() {
     }
   }, [user])
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-violet-500 ">
-      <div className="w-[350px] h-[550px] rounded-3xl text-center bg-amber-600 shadow-lg">
-        <h1 className="font-bold text-2xl pt-4 pb-6">Breed Sense</h1>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+    // <div className="w-100% bg-sky-300  h-screen flex justify-center ">
+    //   <div className=" block ">
+    <div className="flex flex-col h-screen justify-center items-center  bg-sky-500 ">
+      <div className="w-[350px] h-[650px] rounded-3xl text-center bg-sky-300 shadow-lg">
+        <h1 className="font-bold text-2xl pt-6 pb-4">Breed Sense</h1>
+
+        <form action="" onSubmit={handleSubmit(onSubmit)}>
           <input
-            className="border-2 border-white m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-400 text-white hover:text-black"
+            className="border-2 border-sky-500 m-2 w-56 rounded-[5px] pl-3  text-[20px] bg-white text-black hover:text-black"
             placeholder="username"
             {...register("username", {
               required: { value: true, message: "This field is required" },
@@ -67,7 +73,7 @@ function Page() {
           {errors.username && <div className="text-red-700">{errors.username.message}</div>}
 
           <input
-            className="border-2 border-white m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-400 text-white hover:text-black"
+            className="border-2 border-sky-500 m-2 w-56 rounded-[5px] pl-3 text-[20px] bg-white text-black hover:text-black"
             placeholder="Phone number"
             {...register("number", {
               required: { value: true, message: "Phone number is required" },
@@ -78,10 +84,10 @@ function Page() {
             value={user.number}
             onChange={(e) => setuser({ ...user, number: e.target.value })}
           />
-          {errors.phone && <div className="text-red-700">{errors.phone.message}</div>}
+          {errors.number && <div className="text-red-700">{errors.number.message}</div>}
 
           <input
-            className="border-2 border-white m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-400 text-white hover:text-black"
+            className="border-2 border-sky-500 m-2 w-56 rounded-[5px] pl-3  text-[20px] bg-white text-black hover:text-black"
             placeholder="Email"
             {...register("email", {
               required: { value: true, message: "Email is required" },
@@ -94,7 +100,7 @@ function Page() {
           {errors.email && <div className="text-red-700">{errors.email.message}</div>}
 
           <input
-            className="border-2 border-white m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-400 text-white hover:text-black"
+            className="border-2 border-sky-500 m-2 w-56 rounded-[5px] pl-3 text-[20px]   bg-white text-balck hover:text-black"
             placeholder="Password"
             {...register("password", {
               required: { value: true, message: "Password is required" },
@@ -107,7 +113,7 @@ function Page() {
           />
           {errors.password && <div className="text-red-700">{errors.password.message}</div>}
           <input
-            className="border-2 border-white m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-400 text-white hover:text-black"
+            className="border-2 border-sky-500 m-2 w-56 rounded-[5px] pl-3  text-[20px] bg-white text-black hover:text-black"
             placeholder="Confirm Password"
             {...register("confirmPassword", {
               required: "Confirm your password",
@@ -120,7 +126,44 @@ function Page() {
             <div className="text-red-700">{errors.confirmPassword.message}</div>
           )}
 
-          {/* <input
+          <button type="submit" className="border-2 border-sky-500 hover:border-blue-600  m-2 w-56 rounded-[10px] p-2  text-[20px] bg-sky-500 text-white hover:text-black hover:bg-blue-600  cursor-pointer" onClick={signup} >
+            {buttonDisabled ? "No Sign Up" : "Sign Up"}
+          </button>
+        </form>
+        <div className="flex flex-row items-center justify-center w-full">
+          <hr className="border-sky-600 border-1 w-[45%]" />
+          <span className="mx-2 text-balck text-[20px]">or</span>
+          <hr className="border-sky-600 border-1 w-[45%]" />
+        </div>
+
+
+        <div className="mt-2">
+          <button
+            onClick={() => signIn("github")}
+            className="bg-gray-700 text-white border-black p-2 w-[222px] text-[20px] rounded-lg m-2 cursor-pointer hover:bg-black"
+          >
+            Sign in with GitHub
+          </button>
+          <button
+            onClick={() => signIn("google")}
+            className="bg-white text-black p-2 border-white  w-[222px] text-[20px] rounded-lg cursor-pointer  hover:bg-blue-700"
+          >
+            Sign in with Google
+          </button>
+        </div>
+        <br />
+        <div>
+          Already registered? <Link className="text-blue-800 font-serif " href="/login">Log In</Link>
+        </div>
+      </div>
+    </div>
+    //   </div>
+    // </div>
+  );
+}
+
+export default Page;
+ {/* <input
             className="border-2 border-white m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-400 text-white hover:text-black"
             placeholder="Password"
             {...register("password", {
@@ -129,7 +172,7 @@ function Page() {
             })}
             type="password"
               id="password"
-            value={user.password}
+              value={user.password}
             onChange={(e) => setuser({ ...user, password: e.target.value })}
           />
           {errors.password && <div className="text-red-700">{errors.password.message}</div>}
@@ -139,42 +182,16 @@ function Page() {
             placeholder="Confirm Password"
             {...register("confirmPassword", {
               required: { value: true, message: "Confirm your password" },
-            })}
-            type="password"
+              })}
+              type="password"
               id="confirm"
-            value={user.confirm}
-            onChange={(e) => setuser({ ...user, confirm: e.target.value })}
+              value={user.confirm}
+              onChange={(e) => setuser({ ...user, confirm: e.target.value })}
           />
           {errors.confirmPassword && <div className="text-red-700">{errors.confirmPassword.message}</div>} */}
 
           {/* <input
-            className="border-2 border-white m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-500 text-white hover:text-black cursor-pointer"
-            type="submit"
-            value="Sign Up"
-          /> */}
-        </form>
-        <button className="border-2 border-white m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-500 text-white hover:text-black cursor-pointer" onClick={signup} >
-          {buttonDisabled ? "No Sign Up" : "Sign Up"}
-        </button>
-
-        <div className="mt-6">
-          <p>Already have an account?</p>
-          <button
-            onClick={() => signIn("github")}
-            className="bg-gray-700 text-white px-4 py-2 rounded-lg m-2 hover:bg-black"
-          >
-            Sign in with GitHub
-          </button>
-          <button
-            onClick={() => signIn("google")}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg m-2 hover:bg-blue-700"
-          >
-            Sign in with Google
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default Page;
+                className="border-2 border-sky-500 m-2 w-56 rounded-[10px] p-2 text-[20px] bg-sky-500 text-white hover:text-black cursor-pointer" onClick={signup}
+                type="submit"
+                value="Sign Up"
+              /> */}

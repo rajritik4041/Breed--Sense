@@ -18,6 +18,7 @@ function page() {
         console.log("Form data:", data);
         // You can handle login logic here — like sending data to your API
     };
+    const [errorMsg, setErrorMsg] = useState("");
 
     const router = useRouter()
     const [user, setuser] = useState({
@@ -26,18 +27,41 @@ function page() {
     })
     const [buttondisabled, setbuttonDisabled] = useState(false)
     const [loading, setloading] = useState(false)
+    // const login = async () => {
+    //     try {
+    //         setloading(true);
+    //         const response = await axios.post("/api/users/login", user);
+    //         console.log("Login successful:", response.data);
+    //         router.push("/profile");
+    //     } catch (error) {
+    //         console.log("Login failed:", error.response?.data || error.message);
+    //     } finally {
+    //         setloading(false); // stop loading after request
+    //     }
+    // };
     const login = async () => {
         try {
             setloading(true);
+            setErrorMsg("");
+
             const response = await axios.post("/api/users/login", user);
             console.log("Login successful:", response.data);
+
             router.push("/profile");
         } catch (error) {
             console.log("Login failed:", error.response?.data || error.message);
+
+            //  Agar backend se email verify error aaya
+            if (error.response?.data?.error) {
+                setErrorMsg(error.response.data.error);
+            } else {
+                setErrorMsg("Something went wrong. Please try again.");
+            }
         } finally {
-            setloading(false); // stop loading after request
+            setloading(false);
         }
     };
+
     useEffect(() => {
         if (user.email.length > 0 && user.password.length > 0) {
             setbuttonDisabled(false)
@@ -74,27 +98,30 @@ function page() {
                         <button className="border-2 border-sky-300 m-2 w-56 rounded-[9px] p-3 text-[16px] bg-sky-600 text-white  hover:text-black " onClick={login} >
                             {buttondisabled ? "No Login" : "Login"}
                         </button>
+                        {errorMsg && <p className="text-red-600 mt-2 font-medium">{errorMsg}</p>}
+                        <div className="flex flex-row items-center justify-center pt-2 w-full">
+                            <hr className="border-sky-400 border-1 w-[45%]" />
+                            <span className="mx-2 font-semibold text-sky-600 ">Or</span>
+                            <hr className="border-sky-400 border-1 w-[45%]" />
+                        </div>
 
-                        <div className="mt-2">
-                            <div className="or">
-
-                                <h1> OR </h1>
-                            </div>
-
-                            <p className="text-lg font-serif pt-2">Already have an account?</p>
+                        <div className=" flex flex-col justify-center items-center">
                             <button
                                 onClick={() => signIn("github")}
-                                className="bg-gray-700 text-white px-4 py-2 rounded-lg m-2 hover:bg-black"
+                                className="bg-gray-700 w-[220px] text-white p-2  rounded-lg m-1 hover:bg-black"
                             >
                                 Sign in with GitHub
                             </button>
                             <button
                                 onClick={() => signIn("google")}
-                                className="bg-blue-500 text-white px-4 py-2 rounded-lg m-2 hover:bg-blue-700"
+                                className="bg-blue-500 w-[220px] text-white p-2 rounded-lg m-1 hover:bg-blue-700"
                             >
                                 Sign in with Google
                             </button>
                         </div>
+                        <p className="pt-2 text-black">Don’t have an account?  <Link href="/signup " className="text-sky-900" >Sign Up </Link> </p>
+
+
                     </div>
                 </div>
             </div>

@@ -5,11 +5,13 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import axios from "axios"
+import Link from "next/link"
 
 function Page() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const onSubmit = (data) => {
     console.log(data);
+    signup(data);
   };
   const router = useRouter()
   const [loading, setloading] = useState(false)
@@ -45,8 +47,8 @@ function Page() {
   return (
     <div>
       <div className="flex flex-col justify-center items-center h-screen bg-gradient-to-b from-purple-200 to-purple-300">
-        <div className="w-[350px] h-[650px] rounded-3xl text-center bg-gradient-to-b from-purple-300 to-purple-100 shadow-lg">
-          <h1 className="font-bold text-white text-2xl pt-4 pb-6">Breed Sense</h1>
+        <div className="w-[350px] h-[680px]  rounded-3xl text-center bg-gradient-to-b from-purple-300 to-purple-100 shadow-lg">
+          <h1 className="font-bold  text-white text-2xl pt-4 pb-6">Breed Sense</h1>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <input
@@ -62,7 +64,7 @@ function Page() {
               value={user.username}
               onChange={(e) => setuser({ ...user, username: e.target.value })}
             />
-            {errors.username && <div className="text-red-700">{errors.username.message}</div>}
+            {errors.username && <div className="flex pl-16 pt-0 pb-0.5  text-red-700">{errors.username.message}</div>}
 
             <input
               className="border-2 border-purple-100 m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-100 hover:text-black"
@@ -77,7 +79,7 @@ function Page() {
               value={user.number}
               onChange={(e) => setuser({ ...user, number: e.target.value })}
             />
-            {errors.phone && <div className="text-red-700">{errors.phone.message}</div>}
+            {errors.number && <div className=" text-red-700 flex pl-16 pt-0 pb-0.5 ">{errors.number.message}</div>}
 
             <input
               className="border-2 border-purple-100 m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-100 hover:text-black"
@@ -90,7 +92,7 @@ function Page() {
               value={user.email}
               onChange={(e) => setuser({ ...user, email: e.target.value })}
             />
-            {errors.email && <div className="text-red-700">{errors.email.message}</div>}
+            {errors.email && <div className="text-red-700 flex pl-16 pt-0 pb-0.5 ">{errors.email.message}</div>}
 
             <input
               className="border-2 border-purple-100 m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-100 hover:text-black"
@@ -104,7 +106,7 @@ function Page() {
               value={user.password}
               onChange={(e) => setuser({ ...user, password: e.target.value })}
             />
-            {errors.password && <div className="text-red-700">{errors.password.message}</div>}
+            {errors.password && <div className="text-red-700 flex pl-16 pt-0 pb-0.5 ">{errors.password.message}</div>}
             <input
               className="border-2 border-purple-100 m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-100 hover:text-black"
               placeholder="Confirm Password"
@@ -116,19 +118,20 @@ function Page() {
               type="password"
             />
             {errors.confirmPassword && (
-              <div className="text-red-700">{errors.confirmPassword.message}</div>
+              <div className="text-red-700 flex pl-16 pt-0 pb-0.5 ">{errors.confirmPassword.message}</div>
             )}
             <input
               className="border-2 border-purple-100 m-1 w-56 rounded-[9px] p-2 text-[16px] bg-gradient-to-l from-purple-400 to-purple-300 text-white cursor-pointer"
               type="submit"
               value={buttonDisabled ? "No Sign Up" : "Sign Up"}
-              onClick={signup}
             />
+
           </form>
+
           <div className="flex flex-row items-center justify-center w-full">
-            <hr className="border-purple-600 border-1 w-[45%]" />
+            <hr className="border-purple-400 border-1 w-[45%]" />
             <span className="mx-2 font-semibold text-purple-800">or</span>
-            <hr className="border-purple-600 border-1 w-[45%]" />
+            <hr className="border-purple-400 border-1 w-[45%]" />
           </div>
 
           <div className=" flex flex-col justify-center items-center">
@@ -145,8 +148,7 @@ function Page() {
               Sign in with Google
             </button>
           </div>
-          <br />
-          <p>Already registered? <span className="text-sky-600"> &nbsp;&nbsp;Log In</span></p>
+          <p>Already registered? <Link href="/login" className="text-blue-800" >Log In </Link> </p>
 
         </div>
 

@@ -82,22 +82,26 @@ const Navbar = () => {
                                 <Link className=" m-1 pl-5 shadow hover:shadow-lg pb-2 pt-3 block" href="/opportunities">Oppertunities </Link>
                                 <div className="flex pl-2.5 pb-2.5 pt-5">
                                     <div className="  bg-violet-500 m-2 rounded-md ">
-                                        <motion.button
-                                            className="signup-button1 p-2 hover:bg-violet-600 rounded-md  "
-                                            whileHover={{ scale: 1.1 }}
-                                            whileTap={{ scale: 0.95 }}
-                                        >
-                                            <Link href="/signup">Signup</Link>
-                                        </motion.button>
+                                        <Link href="/signup">
+                                            <motion.button
+                                                className="signup-button1 p-2 cursor-pointer hover:bg-violet-600 rounded-md  "
+                                                whileHover={{ scale: 1.1 }}
+                                                whileTap={{ scale: 0.95 }}
+                                            >
+                                                Signup
+                                            </motion.button>
+                                        </Link>
                                     </div>
                                     <div className="m-2 bg-violet-500 rounded-md ">
-                                        <motion.button
-                                            className="login-button1 p-2  hover:bg-violet-600 rounded-md  "
-                                            whileHover={{ scale: 1.1 }}
-                                            whileTap={{ scale: 0.95 }}
-                                        >
-                                            <Link href="/login">&nbsp;&nbsp;&nbsp;login&nbsp;&nbsp;&nbsp;</Link>
-                                        </motion.button>
+                                        <Link href="/login" >
+                                            <motion.button
+                                                className="login-button1 p-2 cursor-pointer hover:bg-violet-600 rounded-md  "
+                                                whileHover={{ scale: 1.1 }}
+                                                whileTap={{ scale: 0.95 }}
+                                            >
+                                                &nbsp;&nbsp;&nbsp;login&nbsp;&nbsp;&nbsp;
+                                            </motion.button>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

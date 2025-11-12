@@ -46,14 +46,14 @@ function Page() {
     }
   }, [user])
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-violet-500 ">
-      <div className="w-[350px] h-[550px] rounded-3xl text-center bg-amber-600 shadow-lg">
-        <h1 className="font-bold text-2xl pt-4 pb-6">Breed Sense</h1>
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-purple-200 to-purple-300">
+      <div className="w-[350px] h-[550px] rounded-3xl text-center bg-gradient-to-b from-purple-300 to-purple-100 shadow-lg">
+        <h1 className="font-bold text-white text-2xl pt-4 pb-6">Breed Sense</h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <input
-            className="border-2 border-white m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-400 text-white hover:text-black"
-            placeholder="username"
+            className="border-2 border-purple-100 m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-100 hover:text-black"
+            placeholder="Enter your username"
             {...register("username", {
               required: { value: true, message: "This field is required" },
               minLength: { value: 3, message: "Min length is 3" },
@@ -67,7 +67,7 @@ function Page() {
           {errors.username && <div className="text-red-700">{errors.username.message}</div>}
 
           <input
-            className="border-2 border-white m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-400 text-white hover:text-black"
+            className="border-2 border-purple-100 m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-100 hover:text-black"
             placeholder="Phone number"
             {...register("number", {
               required: { value: true, message: "Phone number is required" },
@@ -81,7 +81,7 @@ function Page() {
           {errors.phone && <div className="text-red-700">{errors.phone.message}</div>}
 
           <input
-            className="border-2 border-white m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-400 text-white hover:text-black"
+            className="border-2 border-purple-100 m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-100 hover:text-black"
             placeholder="Email"
             {...register("email", {
               required: { value: true, message: "Email is required" },
@@ -94,7 +94,7 @@ function Page() {
           {errors.email && <div className="text-red-700">{errors.email.message}</div>}
 
           <input
-            className="border-2 border-white m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-400 text-white hover:text-black"
+            className="border-2 border-purple-100 m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-100 hover:text-black"
             placeholder="Password"
             {...register("password", {
               required: { value: true, message: "Password is required" },
@@ -107,7 +107,7 @@ function Page() {
           />
           {errors.password && <div className="text-red-700">{errors.password.message}</div>}
           <input
-            className="border-2 border-white m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-400 text-white hover:text-black"
+            className="border-2 border-purple-100 m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-100 hover:text-black"
             placeholder="Confirm Password"
             {...register("confirmPassword", {
               required: "Confirm your password",
@@ -153,7 +153,7 @@ function Page() {
             value="Sign Up"
           /> */}
         </form>
-        <button className="border-2 border-white m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-500 text-white hover:text-black cursor-pointer" onClick={signup} >
+        <button className="border-2 border-purple-100 m-2 w-56 rounded-[9px] p-2 text-[16px] bg-gradient-to-l from-purple-400 to-purple-300 text-white cursor-pointer" onClick={signup} >
           {buttonDisabled ? "No Sign Up" : "Sign Up"}
         </button>
 

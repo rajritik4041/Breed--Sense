@@ -48,9 +48,9 @@ function page() {
     }, [user])
 
     return (
-        <div className="w-100% bg-sky-300 flex justify-center ">
+        <div className="w-100% bg-gradient-to-b from-sky-300 to-purple-50 flex justify-center ">
             <div className=" block ">
-                <div className="box w-[350px] h-[500px]  mt-32 mb-32 rounded-3xl text-center bg-sky-200">
+                <div className="box w-[350px] h-[500px]  mt-32 mb-32 rounded-3xl text-center bg-gradient-to-b from-sky-200 to-sky-300 shadow-lg">
                     <h1 className="font-bold text-2xl pt-4 pb-6 block ">Breed Sense </h1>
                     <div className="container">
                         <form onSubmit={handleSubmit(onSubmit)}>

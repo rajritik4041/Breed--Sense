@@ -35,7 +35,7 @@ const Navbar = () => {
                         <Link className=" text-black hover:text-blue-500 " key={link.id}
                             href={link.href}
                             onClick={() => handleNavclick(link.href)} >
-                            {link.label} 
+                            {link.label}
                         </Link>
                     )
                     )}
@@ -75,7 +75,7 @@ const Navbar = () => {
                     </motion.button>
                     {showDiv && (
                         <div className="text-black">
-                            <div className=" w-48 h-72 bg-white  absolute top-16 right-0">
+                            <div className=" w-48 h-72 bg-white  absolute top-16  ">
                                 <Link className=" m-1 pl-5 shadow hover:shadow-lg pb-2 pt-3 block" href="/">Home</Link>
                                 <Link className=" m-1 pl-5 shadow hover:shadow-lg pb-2 pt-3 block " href="/about">About</Link>
                                 <Link className=" m-1 pl-5 shadow hover:shadow-lg pb-2 pt-3 block" href="/contact">Contact Us</Link>

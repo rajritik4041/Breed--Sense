@@ -94,7 +94,7 @@ function Page() {
                   <h3 className="font-bold">Phone : </h3> <a href="tel:+919076611211" className="text-blue-600"> &nbsp; +91 9076611211 </a>
                 </div>
                 <div className="flex">
-                  <h3 className="font-bold">Email&nbsp;  : </h3>  <a href="malito:deanmcaet@gmail.com" className="text-blue-600"> &nbsp; deanmcaet@gmail.com</a>
+                  <h3 className="font-bold">Email&nbsp;  : </h3>  <a href="mailto:deanmcaet@gmail.com" className="text-blue-600"> &nbsp; deanmcaet@gmail.com</a>
                 </div>
               </motion.div>
 
@@ -110,7 +110,9 @@ function Page() {
                   <h3 className="font-bold">Phone : </h3> <a href="tel:+919236134041" className="text-blue-600"> &nbsp; +91 9236134041 </a>
                 </div>
                 <div className="flex">
-                  <h3 className="font-bold">Email&nbsp;  : </h3>  <a href="malito:rajritik.4041@gmail.com" className="text-blue-600"> &nbsp; rajritik.4041@gmail.com</a>
+                  <h3 className="font-bold">Email&nbsp;  : </h3>  <a href="mailto:rajritik.4041@gmail.com" className="text-blue-600">
+                    &nbsp; rajritik.4041@gmail.com
+                  </a>
                 </div>
               </motion.div>
               <motion.div initial={{ opacity: 0, y: 30 }}

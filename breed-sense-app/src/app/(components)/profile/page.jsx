@@ -60,6 +60,42 @@
 //     </div>
 //   );
 // }
+
+// "use client";
+
+// import { useRouter } from "next/navigation";
+// import { useEffect, useState } from "react";
+// import axios from "axios";
+// import Navbar from "@/Components/Header/page";
+
+// export default function Profile() {
+//   const router = useRouter();
+//   const [user, setUser] = useState(null);
+
+//   useEffect(() => {
+//     axios.get("/api/users/me")
+//       .then(res => setUser(res.data.user))
+//       .catch(() => router.push("/"));
+//   }, []);
+
+//   if (!user) return <h1>Loading...</h1>;
+
+//   return (
+//     <div>
+//       <Navbar />
+//       <h1>Username: {user.username}</h1>
+//       <h1>Email: {user.email}</h1>
+
+//       <button onClick={async () => {
+//         await axios.get("/api/users/logout");
+//         router.push("/");
+//       }}>
+//         Logout
+//       </button>
+//     </div>
+//   );
+// }
+
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -69,28 +105,48 @@ import Navbar from "@/Components/Header/page";
 
 export default function Profile() {
   const router = useRouter();
-  const [user, setUser] = useState(null);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
 
+  // Fetch user from backend
   useEffect(() => {
-    axios.get("/api/users/me")
-      .then(res => setUser(res.data.user))
-      .catch(() => router.push("/"));
+    axios
+      .get("/api/users/me")
+      .then((res) => {
+        setUsername(res.data.user.username);
+        setEmail(res.data.user.email);
+      })
+      .catch(() => {
+        router.push("/"); // Not logged in → go home
+      });
   }, []);
 
-  if (!user) return <h1>Loading...</h1>;
+  // Disable back button
+  useEffect(() => {
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+  }, []);
+
+  // Logout
+  const logout = async () => {
+    try {
+      await axios.get("/api/users/logout");
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
       <Navbar />
-      <h1>Username: {user.username}</h1>
-      <h1>Email: {user.email}</h1>
 
-      <button onClick={async () => {
-        await axios.get("/api/users/logout");
-        router.push("/");
-      }}>
-        Logout
-      </button>
+      <h1>Welcome, {username}</h1>
+      <h1>Your Email: {email}</h1>
+
+      <button onClick={logout}>Logout</button>
     </div>
   );
 }

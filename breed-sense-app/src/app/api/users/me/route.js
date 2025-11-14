@@ -31,9 +31,6 @@
 //     email: decoded.email,
 //   });
 // }
-
-
-// /api/users/me
 import jwt from "jsonwebtoken";
 import User from "@/models/userModel";
 import { NextResponse } from "next/server";
@@ -41,12 +38,22 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
   try {
     const token = request.cookies.get("token")?.value;
-    if(!token) return NextResponse.json({ error: "Not Authenticated" }, { status: 401 });
+
+    if (!token) {
+      return NextResponse.json({ error: "Not Authenticated" }, { status: 401 });
+    }
 
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+
     const user = await User.findById(decoded.id).select("-password");
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     return NextResponse.json({ user });
-  } catch (err) {
+
+  } catch (error) {
     return NextResponse.json({ error: "Invalid token" }, { status: 401 });
   }
 }

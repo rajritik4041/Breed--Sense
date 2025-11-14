@@ -10,25 +10,22 @@ export async function POST(request) {
   try {
     const { email, password } = await request.json();
 
+    // Check user
     const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json({ error: "User does not exist" }, { status: 400 });
     }
 
+    // Check password
     const validPassword = await bcryptjs.compare(password, user.password);
     if (!validPassword) {
       return NextResponse.json({ error: "Invalid Password" }, { status: 400 });
     }
 
-    const tokenData = {
-      id: user._id,
-      username: user.username,   // ✔ USERNAME ADDED
-      email: user.email,
-    };
-
+    // ✔ Token me sirf ID (best practice)
     const token = jwt.sign(
-      tokenData,
-      process.env.TOKEN_SECRET || "fallbackSecret",
+      { id: user._id },
+      process.env.TOKEN_SECRET,
       { expiresIn: "1d" }
     );
 

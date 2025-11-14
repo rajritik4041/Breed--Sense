@@ -12,7 +12,10 @@ function page() {
         handleSubmit,
         formState: { errors },
     } = useForm();
-
+    useEffect(() => {
+        // Disable back-cache on login page
+        window.history.replaceState(null, "", window.location.href);
+    }, []);
     //  Define your onSubmit function
     const onSubmit = async (data) => {
         console.log("Form data:", data);

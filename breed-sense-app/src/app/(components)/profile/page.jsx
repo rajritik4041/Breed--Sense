@@ -3,7 +3,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "@/Components/Header/page";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
+
 
 export default function Profile() {
   const router = useRouter();

@@ -60,8 +60,8 @@
 //     </div>
 //   );
 // }
-
 "use client";
+
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -71,32 +71,13 @@ export default function Profile() {
   const router = useRouter();
   const [user, setUser] = useState(null);
 
-  // Fetch User
   useEffect(() => {
     axios.get("/api/users/me")
-      .then(res => {
-        setUser(res.data.user);
-      })
-      .catch(() => {
-        router.push("/");   // Not logged in -> send back to home
-      });
+      .then(res => setUser(res.data.user))
+      .catch(() => router.push("/"));
   }, []);
 
-  // Disable back button
-  useEffect(() => {
-    window.history.pushState(null, "", window.location.href);
-    window.onpopstate = () => {
-      window.history.pushState(null, "", window.location.href);
-    };
-  }, []);
-
-  // Logout
-  const logout = async () => {
-    await axios.get("/api/users/logout");
-    router.push("/");
-  };
-
-  if (!user) return <h2>Loading...</h2>;
+  if (!user) return <h1>Loading...</h1>;
 
   return (
     <div>
@@ -104,7 +85,12 @@ export default function Profile() {
       <h1>Username: {user.username}</h1>
       <h1>Email: {user.email}</h1>
 
-      <button onClick={logout}>Logout</button>
+      <button onClick={async () => {
+        await axios.get("/api/users/logout");
+        router.push("/");
+      }}>
+        Logout
+      </button>
     </div>
   );
 }

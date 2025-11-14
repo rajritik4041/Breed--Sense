@@ -48,8 +48,10 @@
 //     return NextResponse.json({ error: error.message }, { status: 500 });
 //   }
 // }
-import { connect } from "@/dbConfig/dbConfig.js";
-import User from "@/models/userModel.js";
+
+
+import { connect } from "../../../../dbConfig/dbConfig.js";
+import User from "../../../../models/userModel.js";
 import { NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -70,9 +72,10 @@ export async function POST(request) {
       return NextResponse.json({ error: "Invalid Password" }, { status: 400 });
     }
 
+    // Token
     const token = jwt.sign(
       { id: user._id },
-      process.env.TOKEN_SECRET,
+      process.env.TOKEN_SECRET || "fallbackSecret123",
       { expiresIn: "1d" }
     );
 
@@ -83,8 +86,6 @@ export async function POST(request) {
 
     response.cookies.set("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
       path: "/",
     });
 

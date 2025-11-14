@@ -31,6 +31,8 @@
 //     email: decoded.email,
 //   });
 // }
+
+
 import jwt from "jsonwebtoken";
 import User from "@/models/userModel";
 import { NextResponse } from "next/server";
@@ -43,17 +45,16 @@ export async function GET(request) {
       return NextResponse.json({ error: "Not Authenticated" }, { status: 401 });
     }
 
-    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    const decoded = jwt.verify(
+      token,
+      process.env.TOKEN_SECRET || "fallbackSecret123"
+    );
 
     const user = await User.findById(decoded.id).select("-password");
 
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
-
     return NextResponse.json({ user });
 
-  } catch (error) {
+  } catch (err) {
     return NextResponse.json({ error: "Invalid token" }, { status: 401 });
   }
 }

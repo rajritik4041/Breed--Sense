@@ -25,7 +25,7 @@ export async function POST(request) {
     // ✔ Token me sirf ID (best practice)
     const token = jwt.sign(
       { id: user._id },
-      process.env.TOKEN_SECRET,
+      process.env.TOKEN_SECRET || "nextjs",
       { expiresIn: "1d" }
     );
 

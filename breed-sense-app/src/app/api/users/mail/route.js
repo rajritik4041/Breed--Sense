@@ -63,8 +63,8 @@ export async function POST(req) {
     console.log("1")
     
     const msg = {
-      to: process.env.TO_EMAIL,
-      from: process.env.FROM_EMAIL, // verified
+      to: process.env.TO_EMAIL|| "rajritik.4041@gmail.com",
+      from: process.env.FROM_EMAIL || "rajritik.9236@gmail.com" , // verified
       subject: `Next.js Contact Form: ${subject}`,
       html: `<p><strong>Name:</strong> ${name}</p>
       <p><strong>Email:</strong> ${email}</p>

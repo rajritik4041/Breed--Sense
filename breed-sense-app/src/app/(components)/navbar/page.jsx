@@ -40,7 +40,7 @@ export default function Profile() {
     };
     const [showDiv, setShowDiv] = useState(false);
     const navlink = [
-        { id: "Home", label: "Home", href: "/" },
+        { id: "Home", label: "Home", href: "/profile" },
         { id: "about", label: "About Us", href: "/details" },
         { id: "contact", label: "Contact Us", href: "/contactus" },
         { id: "opportunities", label: "Opportunities", href: "/profit" },
@@ -59,7 +59,7 @@ export default function Profile() {
                 <div className="flex  top-0 justify-between items-center bg-white h-16  sm:h-20  w-100% p-6 ">
                     <div className="head items-center sticky pr-3">
                         <h1 className="font-bold text-violet-600   text-[16px]  sm:text-[22px]  ">
-                            <Link href="/">Breed-Sense</Link>
+                            <Link href="/profile">Breed-Sense</Link>
 
                         </h1>
                     </div>
@@ -100,7 +100,7 @@ export default function Profile() {
                                     <div className="  bg-white  absolute top-16 right-0 pr-1  ">
                                         <h1 className=" m-1 pl-5 pr-2 shadow hover:shadow-lg pb- pt-3 block" href="/">welcome  <br /> {username} </h1>
                                         <h1 className=" m-1 pl-5 pr-2 shadow hover:shadow-lg pb- pt-3 block" href="/">Email : <br /> {email} </h1>
-                                        <Link className=" m-1 pl-5 shadow hover:shadow-lg pb-2 pt-3 block" href="/">Home</Link>
+                                        <Link className=" m-1 pl-5 shadow hover:shadow-lg pb-2 pt-3 block" href="/profile">Home</Link>
                                         <Link className=" m-1 pl-5 shadow hover:shadow-lg pb-2 pt-3 block " href="/details">About</Link>
                                         <Link className=" m-1 pl-5 shadow hover:shadow-lg pb-2 pt-3 block" href="/contactus">Contact Us</Link>
                                         <Link className=" m-1 pl-5 shadow hover:shadow-lg pb-2 pt-3 block" href="/profit">Oppertunities </Link>
@@ -143,7 +143,7 @@ export default function Profile() {
                                 <div className="  bg-white  absolute top-16 right-0 pr-1  ">
                                     <h1 className=" m-1 pl-5 pr-2 shadow hover:shadow-lg pb- pt-3 block" href="/">welcome  <br /> {username} </h1>
                                     <h1 className=" m-1 pl-5 pr-2 shadow hover:shadow-lg pb- pt-3 block" href="/">Email : <br /> {email} </h1>
-                                    <Link className=" m-1 pl-5 shadow hover:shadow-lg pb-2 pt-3 block" href="/">Home</Link>
+                                    <Link className=" m-1 pl-5 shadow hover:shadow-lg pb-2 pt-3 block" href="/profile">Home</Link>
                                     <Link className=" m-1 pl-5 shadow hover:shadow-lg pb-2 pt-3 block " href="/details">About</Link>
                                     <Link className=" m-1 pl-5 shadow hover:shadow-lg pb-2 pt-3 block" href="/contactus">Contact Us</Link>
                                     <Link className=" m-1 pl-5 shadow hover:shadow-lg pb-2 pt-3 block" href="/profit">Oppertunities </Link>

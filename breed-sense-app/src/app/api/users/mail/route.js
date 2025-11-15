@@ -54,10 +54,13 @@ export default async function handler(req, res) {
 
     try {
       await sgMail.send({
-        to: "your-email@example.com",       // Receiver
-        from: "your-sendgrid-verified@example.com", // Must be verified sender
-        subject: subject,
+        to: "your-email@example.com", // Receiver email (तुम्हारा inbox)
+        from: "verified-sender@example.com", // SendGrid में verified sender
+        subject: subject || "No subject",
         text: `From: ${name} (${email})\n\n${message}`,
+        html: `<p><strong>From:</strong> ${name} (${email})</p>
+               <p><strong>Message:</strong></p>
+               <p>${message}</p>`,
       });
 
       res.status(200).json({ message: "Email sent successfully!" });
@@ -69,4 +72,3 @@ export default async function handler(req, res) {
     res.status(405).json({ error: "Method not allowed" });
   }
 }
-

@@ -36,38 +36,37 @@ function Page() {
   //     console.error(err);
   //   }
   // };
-  const onSubmit = async (data) => {
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formData);
+
+    const { name, email, subject, message } = formData;
+
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
-      const res = await fetch(`${baseUrl}/api/users/mail`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+      const res = await axios.post("/api/users/mail", {
+        name,
+        email,
+        subject,
+        message,
       });
 
-      let result;
-      try {
-        result = await res.json();
-      } catch {
-        result = {};
-      }
-
-      if (res.ok) {
-        alert(result.message || "Mail sent successfully!");
-        setMessage({ name: "", email: "", subject: "", message: "" });
+      if (res.data.success) {
+        alert("Message sent successfully!");
+        setmessage({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
       } else {
-        alert(result.error || "Something went wrong on server!");
+        alert("Error sending message.");
+        console.log("Error: ", res.data);
       }
-    } catch (err) {
-      console.error(err);
-      alert(`Something went wrong! ${err.message}`);
+    } catch (error) {
+      console.error("Request failed:", error);
+      alert("Something went wrong. Please try again later.");
     }
   };
-
-
-
-
-
   return (
     <div>
       <Navbar />

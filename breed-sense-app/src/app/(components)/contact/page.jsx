@@ -8,6 +8,7 @@ import Footer from "@/Components/footer/page";
 import { div } from "framer-motion/client";
 
 function Page() {
+  const { register,  watch, formState: { errors } } = useForm();
   const [formData, setFormData] = useState({
     name: "",
     email: "",

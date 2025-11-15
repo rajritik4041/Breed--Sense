@@ -31,7 +31,7 @@ function Main() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 0.4 }}
-                        >    <label for="Hello"></label>
+                        >    <label htmlFor="Hello"></label>
                             <input className="pl-2 pt-1 h-8 sm:h-10  w-32 text-[15px]  sm:text-[20px] sm:w-72 font-from-neutral-50 sm:font-extrabold   border-2 rounded-lg border-white border-solid  bg-gradient-to-r from-purple-300 to-purple-100   hover:border-white  hover:font-normal hover:bg-yellow-300   text-black hover:text-black "
                                 type="file" id="cameraInput" accept="image/*" capture="camera" placeholder="Choose image " />
                                 

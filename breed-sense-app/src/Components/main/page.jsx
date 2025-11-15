@@ -53,7 +53,7 @@ function Main() {
             </section>
 
             {/* How It Works Section */}
-            <section className="bg-gradient-to-b from-purple-100 to-purple-50 py-20">
+            <section id="how-to-work"  className="bg-gradient-to-b from-purple-100 to-purple-50 py-20">
                 <div className="container mx-auto px-4">
                     <motion.h2 
                         initial={{ opacity: 0 }}
@@ -88,7 +88,7 @@ function Main() {
             </section>
 
             {/* Features Section */}
-            <section className="bg-gradient-to-b from-purple-50 to-white py-20">
+            <section id="features"  className="bg-gradient-to-b from-purple-50 to-white py-20">
                 <div className="container mx-auto px-4">
                     <motion.h2 
                         initial={{ opacity: 0 }}
@@ -156,7 +156,7 @@ function Main() {
             </section>
 
             {/* Testimonials Section */}
-            <section className="bg-gradient-to-b from-white to-purple-50 py-20">
+            <section id="contact"  className="bg-gradient-to-b from-white to-purple-50 py-20">
                 <div className="container mx-auto px-4">
                     <motion.h2 
                         initial={{ opacity: 0 }}

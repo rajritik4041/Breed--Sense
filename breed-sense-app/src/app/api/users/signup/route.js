@@ -3,28 +3,34 @@ import User from "../../../../models/userModel.js";
 import { NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 
-
 export async function POST(request) {
     await connect();
+
     try {
         const reqBody = await request.json();
-        const { username, number , email, password } = reqBody;
+        const { username, number, email, password } = reqBody;
 
-        console.log(reqBody);
-
-        // Check if user already exists
-        const user = await User.findOne({ email });
-        console.log("Hello I am hear1  ")
-        if (user) {
-            console.log("Hello I am hear2  ")
-            return NextResponse.json({ error: "User already exists" }, { status: 400 });
-            console.log("Hello I am hear2.0");
+        // Check if email already exists
+        const existingEmail = await User.findOne({ email });
+        if (existingEmail) {
+            return NextResponse.json(
+                { error: "Email already in use" },
+                { status: 400 }
+            );
         }
+
+        // Check if number already exists
+        const existingNumber = await User.findOne({ number });
+        if (existingNumber) {
+            return NextResponse.json(
+                { error: "Phone number already in use" },
+                { status: 400 }
+            );
+        }
+
         // Hash password
         const salt = await bcryptjs.genSalt(10);
-        console.log("Hello I am hear3  ")
         const hashedPassword = await bcryptjs.hash(password, salt);
-        console.log("Hello I am hear4  ")
 
         // Create new user
         const newUser = new User({
@@ -35,16 +41,18 @@ export async function POST(request) {
         });
 
         const savedUser = await newUser.save();
-        console.log(savedUser);
 
         return NextResponse.json({
             message: "User created successfully",
             success: true,
             savedUser,
-        });
+        }, { status: 201 });
 
     } catch (error) {
         console.error(error);
-        return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
+        return NextResponse.json(
+            { error: "Something went wrong" },
+            { status: 500 }
+        );
     }
 }

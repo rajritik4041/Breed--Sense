@@ -14,7 +14,6 @@ function Page() {
     signup(data);
   };
   const router = useRouter()
-  const [loading, setloading] = useState(false)
   const [user, setuser] = useState({
     email: "",
     password: "",
@@ -23,19 +22,28 @@ function Page() {
   })
 
   const [buttonDisabled, setbuttonDisabled] = useState(false)
+  const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const signup = async (data) => {
-    try {
-      setloading(true);
-      const response = await axios.post("/api/users/signup", data);
-      console.log("Signup success", response.data);
-      router.push("/login");
-    } catch (error) {
-      console.log("Signup failed", error);
-    } finally {
-      setloading(false);
+  try {
+    setLoading(true);
+    const response = await axios.post("/api/users/signup", data);
+    console.log("Signup success", response.data);
+    router.push("/login");
+  } catch (error) {
+    if (error.response && error.response.status === 400) {
+      // backend se error message show karo
+      setErrorMsg(error.response.data.error); // "Email already in use" ya "Phone number already in use"
+    } else {
+      setErrorMsg("Something went wrong. Please try again!");
     }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
+
+
   useEffect(() => {
     if (user.email.length > 0 && user.password.length > 0 && user.username.length > 0) {
       setbuttonDisabled(false)
@@ -50,7 +58,7 @@ function Page() {
         <div className="w-[350px] h-[680px]  rounded-3xl text-center bg-gradient-to-b from-sky-300 to-sky-100 shadow-lg">
           <h1 className="font-bold  text-white text-2xl pt-4 pb-6">Breed Sense</h1>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form  onSubmit={(e) => { e.preventDefault(); signup(user); }} >
             <input
               className="border-2 border-sky-100 m-2 w-56 rounded-[5px] pl-3 p-1 text-[16px] bg-gray-100 hover:text-black"
               placeholder="Enter your username"
@@ -120,34 +128,9 @@ function Page() {
             {errors.confirmPassword && (
               <div className="text-red-700 flex pl-16 pt-0 pb-0.5 ">{errors.confirmPassword.message}</div>
             )}
-            <input
-              className="border-2 border-sky-100 m-1 w-56 rounded-[9px] p-2 text-[16px] bg-gradient-to-l from-sky-400 to-sky-300 text-white cursor-pointer"
-              type="submit"
-              value={buttonDisabled ? "No Sign Up" : "Sign Up"}
-            />
-
+            <button className="border-2 border-sky-100 m-1 w-56 rounded-[9px] p-2 text-[16px] bg-gradient-to-l from-sky-400 to-sky-300 text-white cursor-pointer" type="submit" disabled={loading}>{loading ? "Signing up..." : "Sign Up"}</button>
+            {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
           </form>
-
-          <div className="flex flex-row items-center justify-center w-full">
-            <hr className="border-sky-400 border-1 w-[45%]" />
-            <span className="mx-2 font-semibold text-sky-800">or</span>
-            <hr className="border-sky-400 border-1 w-[45%]" />
-          </div>
-
-          <div className=" flex flex-col justify-center items-center">
-            <button
-              onClick={() => signIn("github")}
-              className="bg-gray-700 w-[220px] text-white p-2  rounded-lg m-1 hover:bg-black"
-            >
-              Sign in with GitHub
-            </button>
-            <button
-              onClick={() => signIn("google")}
-              className="bg-blue-500 w-[220px] text-white p-2 rounded-lg m-1 hover:bg-blue-700"
-            >
-              Sign in with Google
-            </button>
-          </div>
           <p>Already registered? <Link href="/login" className="text-blue-800" >Log In </Link> </p>
 
         </div>

@@ -23,6 +23,7 @@ function page() {
     };
     const [errorMsg, setErrorMsg] = useState("");
 
+
     const router = useRouter()
     const [user, setuser] = useState({
         email: "",
@@ -30,18 +31,7 @@ function page() {
     })
     const [buttondisabled, setbuttonDisabled] = useState(false)
     const [loading, setloading] = useState(false)
-    // const login = async () => {
-    //     try {
-    //         setloading(true);
-    //         const response = await axios.post("/api/users/login", user);
-    //         console.log("Login successful:", response.data);
-    //         router.push("/profile");
-    //     } catch (error) {
-    //         console.log("Login failed:", error.response?.data || error.message);
-    //     } finally {
-    //         setloading(false); // stop loading after request
-    //     }
-    // };
+ 
     const login = async () => {
         try {
             setloading(true);
@@ -102,26 +92,7 @@ function page() {
                             {buttondisabled ? "No Login" : "Login"}
                         </button>
                         {errorMsg && <p className="text-red-600 mt-2 font-medium">{errorMsg}</p>}
-                        <div className="flex flex-row items-center justify-center pt-2 w-full">
-                            <hr className="border-sky-400 border-1 w-[45%]" />
-                            <span className="mx-2 font-semibold text-sky-600 ">Or</span>
-                            <hr className="border-sky-400 border-1 w-[45%]" />
-                        </div>
-
-                        <div className=" flex flex-col justify-center items-center">
-                            <button
-                                onClick={() => signIn("github")}
-                                className="bg-gray-700 w-[220px] text-white p-2  rounded-lg m-1 hover:bg-black"
-                            >
-                                Sign in with GitHub
-                            </button>
-                            <button
-                                onClick={() => signIn("google")}
-                                className="bg-blue-500 w-[220px] text-white p-2 rounded-lg m-1 hover:bg-blue-700"
-                            >
-                                Sign in with Google
-                            </button>
-                        </div>
+                                                
                         <p className="pt-2 text-black">Don’t have an account?  <Link href="/signup " className="text-sky-900" >Sign Up </Link> </p>
 
 

@@ -16,26 +16,52 @@ function Page() {
     message: "",
   })
 
-  const onSubmit = async (data) => {
-    try {
-      const res = await fetch("/api/users/mail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+  // const onSubmit = async (data) => {
+  //   try {
+  //     const res = await fetch("/api/users/mail", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(data),
+  //     });
 
-      if (res.ok) {
-        alert("Message sent successfully!");
-        setmessage({ name: "", email: "", subject: "", message: "" });
-      } else {
-        alert("Failed to send message!");
-      }
-    } catch (err) {
-      console.error(err);
+  //     if (res.ok) {
+  //       alert("Message sent successfully!");
+  //       setmessage({ name: "", email: "", subject: "", message: "" });
+  //     } else {
+  //       alert("Failed to send message!");
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+  const onSubmit = async (data) => {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
+
+    const res = await fetch(`${baseUrl}/api/users/mail`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json(); // parse the JSON response
+
+    if (res.ok) {
+      alert(result.message); // show success message from API
+      setmessage({ name: "", email: "", subject: "", message: "" });
+    } else {
+      alert(result.error); // show error message from API
     }
-  };
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong!"); // generic error
+  }
+};
+
 
   return (
     <div>

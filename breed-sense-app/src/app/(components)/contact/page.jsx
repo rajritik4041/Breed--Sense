@@ -36,37 +36,25 @@ function Page() {
   //     console.error(err);
   //   }
   // };
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    console.log(formData);
+ const onSubmit = async (data) => {
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data), // data from react-hook-form
+    });
 
-    const { name, email, subject, message } = formData;
+    const result = await res.json();
+    alert(result.data?.message || "Email sent!");
 
-    try {
-      const res = await axios.post("/api/users/mail", {
-        name,
-        email,
-        subject,
-        message,
-      });
+    // Reset form state
+    setmessage({ name: "", email: "", subject: "", message: "" });
+  } catch (err) {
+    console.error("Submit error:", err);
+    alert("Error sending email");
+  }
+};
 
-      if (res.data.success) {
-        alert("Message sent successfully!");
-        setmessage({
-          name: "",
-          email: "",
-          subject: "",
-          message: "",
-        });
-      } else {
-        alert("Error sending message.");
-        console.log("Error: ", res.data);
-      }
-    } catch (error) {
-      console.error("Request failed:", error);
-      alert("Something went wrong. Please try again later.");
-    }
-  };
   return (
     <div>
       <Navbar />
@@ -78,7 +66,7 @@ function Page() {
         <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 m-2">
           <div className="p-2 bg-gradient-to-b  from-purple-200 to-purple-50 rounded">
 
-            <form action="" className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+            <form action="" className="flex flex-col" onSubmit={onSubmit}>
               <label className="mt-3 ml-0.5 font-normal text-[18px]  " htmlFor="name">Name</label>
               <input
                 className="border-2 mt-2 bg-white text-black  border-white p-2  hover:border-black rounded-[8px]"
@@ -107,7 +95,7 @@ function Page() {
               {errors.message && <p className="text-red-500  ml-2">Massage is required</p>}
 
 
-              <button onClick={onSubmit} className="m-2 bg-purple-500 mt-8 w-52 p-2.5 px-6 font-bold text-white hover:bg-purple-700   rounded-2xl " >Send Message  </button>
+              <button type="submit" className="m-2 bg-purple-500 mt-8 w-52 p-2.5 px-6 font-bold text-white hover:bg-purple-700   rounded-2xl " >Send Message  </button>
             </form>
           </div>
           <div className="p-4  bg-gradient-to-b  from-purple-100 to-purple-50 rounded">

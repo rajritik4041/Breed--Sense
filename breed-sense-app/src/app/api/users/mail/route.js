@@ -48,31 +48,26 @@ import sgMail from "@sendgrid/mail";
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
-
-  const { name, email, subject, message } = req.body;
-
-  if (!name || !email || !message) {
-    return res.status(400).json({ error: "Name, email, and message are required" });
-  }
+export async function POST(req) {
+  const { name, email, subject, message } = await req.json();
 
   try {
     await sgMail.send({
-      to: "your-email@example.com",
-      from: "verified-sender@example.com",
+      to: "your-email@example.com",        // Receiver email
+      from: "verified-sender@example.com", // Must be verified in SendGrid
       subject: subject || "No subject",
       text: `From: ${name} (${email})\n\n${message}`,
-      html: `<p><strong>From:</strong> ${name} (${email})</p>
-             <p><strong>Message:</strong></p>
-             <p>${message}</p>`,
     });
 
-    res.status(200).json({ message: "Email sent successfully!" });
+    return new Response(
+      JSON.stringify({ message: "Email sent successfully!" }),
+      { status: 200 }
+    );
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: error.message || "Failed to send email" });
+    return new Response(
+      JSON.stringify({ error: "Failed to send email" }),
+      { status: 500 }
+    );
   }
 }

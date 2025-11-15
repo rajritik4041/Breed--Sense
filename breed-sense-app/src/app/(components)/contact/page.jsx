@@ -8,52 +8,49 @@ import Footer from "@/Components/footer/page";
 import { div } from "framer-motion/client";
 
 function Page() {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  const [nomessage, setmessage] = useState({
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
-  })
+  });
 
-  // const onSubmit = async (data) => {
-  //   try {
-  //     const res = await fetch("/api/users/mail", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(data),
-  //     });
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  //     if (res.ok) {
-  //       alert("Message sent successfully!");
-  //       setmessage({ name: "", email: "", subject: "", message: "" });
-  //     } else {
-  //       alert("Failed to send message!");
-  //     }
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
- const onSubmit = async (data) => {
-  try {
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data), // data from react-hook-form
-    });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formData);
 
-    const result = await res.json();
-    alert(result.data?.message || "Email sent!");
+    const { name, email, subject, message } = formData;
 
-    // Reset form state
-    setmessage({ name: "", email: "", subject: "", message: "" });
-  } catch (err) {
-    console.error("Submit error:", err);
-    alert("Error sending email");
-  }
-};
+    try {
+      const res = await axios.post("/api/users/mail", {
+        name,
+        email,
+        subject,
+        message,
+      });
+
+      if (res.data.success) {
+        alert("Message sent successfully!");
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        alert("Error sending message.");
+        console.log("Error: ", res.data);
+      }
+    } catch (error) {
+      console.error("Request failed:", error);
+      alert("Something went wrong. Please try again later.");
+    }
+  };
+ 
 
   return (
     <div>
@@ -66,7 +63,7 @@ function Page() {
         <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 m-2">
           <div className="p-2 bg-gradient-to-b  from-purple-200 to-purple-50 rounded">
 
-            <form action="" className="flex flex-col" onSubmit={onSubmit}>
+            <form  className="flex flex-col" onSubmit={handleSubmit} >
               <label className="mt-3 ml-0.5 font-normal text-[18px]  " htmlFor="name">Name</label>
               <input
                 className="border-2 mt-2 bg-white text-black  border-white p-2  hover:border-black rounded-[8px]"
@@ -78,20 +75,20 @@ function Page() {
                 })}
                 type="text"
                 id="name"
-                value={nomessage.name}
-                onChange={(e) => setmessage({ ...nomessage, name: e.target.value })}
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
               {errors.name && <p className="text-red-500  ml-2 ">Name is required</p>}
 
               <label className="mt-3 ml-0.5 font-normal text-[18px]  " htmlFor="email">Email</label>
-              <input {...register("email", { required: true })} type="email" className="border-2 mt-2  bg-white text-black  border-white p-2  hover:border-black rounded-[8px]" placeholder="eg. example@gmail.com" id="email" value={nomessage.email} onChange={(e) => setmessage({ ...nomessage, email: e.target.value })} />
+              <input {...register("email", { required: true })} type="email" className="border-2 mt-2  bg-white text-black  border-white p-2  hover:border-black rounded-[8px]" placeholder="eg. example@gmail.com" id="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
 
               {errors.email && <p className="text-red-500  ml-2">Email is required</p>}
               <label className="mt-3 ml-0.5 font-normal text-[18px]  " htmlFor="subject">Subject</label>
-              <input type="text" {...register("subject", { required: true })} className="border-2 mt-2 bg-white text-black   border-white p-2  hover:border-black rounded-[8px]" placeholder="Subject" id="subject" value={nomessage.subject} onChange={(e) => setmessage({ ...nomessage, subject: e.target.value })} />
+              <input type="text" {...register("subject", { required: true })} className="border-2 mt-2 bg-white text-black   border-white p-2  hover:border-black rounded-[8px]" placeholder="Subject" id="subject" value={formData.subject} onChange={(e) => setFormData({ ...formData, subject: e.target.value })} />
               {errors.subject && <p className="text-red-500  ml-2">subject is required</p>}
               <label className="mt-3 ml-0.5 font-normal text-[18px]  " htmlFor="textbar">Message</label>
-              <textarea name="message" {...register("message", { required: true })} className="border-2 mt-2 h-40  bg-white text-black   border-white p-2  hover:border-black rounded-[8px]" placeholder="Enter your message" id="message" value={nomessage.message} onChange={(e) => setmessage({ ...nomessage, message: e.target.value })} ></textarea>
+              <textarea name="message" {...register("message", { required: true })} className="border-2 mt-2 h-40  bg-white text-black   border-white p-2  hover:border-black rounded-[8px]" placeholder="Enter your message" id="message" value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} ></textarea>
               {errors.message && <p className="text-red-500  ml-2">Massage is required</p>}
 
 

@@ -4,6 +4,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion";
+
 import Footer from "@/Components/footer/page";
 import { div } from "framer-motion/client";
 

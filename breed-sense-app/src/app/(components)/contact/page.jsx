@@ -107,7 +107,7 @@ function Page() {
               {errors.message && <p className="text-red-500  ml-2">Massage is required</p>}
 
 
-              <button className="m-2 bg-purple-500 mt-8 w-52 p-2.5 px-6 font-bold text-white hover:bg-purple-700   rounded-2xl " >Send Message  </button>
+              <button onClick={onSubmit} className="m-2 bg-purple-500 mt-8 w-52 p-2.5 px-6 font-bold text-white hover:bg-purple-700   rounded-2xl " >Send Message  </button>
             </form>
           </div>
           <div className="p-4  bg-gradient-to-b  from-purple-100 to-purple-50 rounded">

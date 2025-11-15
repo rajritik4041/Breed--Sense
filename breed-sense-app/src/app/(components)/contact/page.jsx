@@ -36,29 +36,34 @@ function Page() {
   //     console.error(err);
   //   }
   // };
- const onSubmit = async (data) => {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
+  const onSubmit = async (data) => {
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
+      const res = await fetch(`${baseUrl}/api/users/mail`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-    const res = await fetch(`${baseUrl}/api/users/mail`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+      let result;
+      try {
+        result = await res.json();
+      } catch {
+        result = {};
+      }
 
-    const result = await res.json();
-
-    if (res.ok) {
-      alert(result.message || "Mail sent successfully!");
-      setMessage({ name: "", email: "", subject: "", message: "" }); // 
-    } else {
-      alert(result.error || "Something went wrong on server!");
+      if (res.ok) {
+        alert(result.message || "Mail sent successfully!");
+        setMessage({ name: "", email: "", subject: "", message: "" });
+      } else {
+        alert(result.error || "Something went wrong on server!");
+      }
+    } catch (err) {
+      console.error(err);
+      alert(`Something went wrong! ${err.message}`);
     }
-  } catch (err) {
-    console.error(err);
-    alert(`Something went wrong! ${err.message}`);
-  }
-};
+  };
+
 
 
 

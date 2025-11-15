@@ -46,31 +46,27 @@
 // }
 import sgMail from "@sendgrid/mail";
 
-sgMail.setApiKey(process.env.SG_API_KEY);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-export async function POST(req) {
-  try {
-    const body = await req.json();
-    const { name, email, subject, message } = body;
+export default async function handler(req, res) {
+  if (req.method === "POST") {
+    const { name, email, subject, message } = req.body;
 
-    if (!name || !email || !subject || !message) {
-      return new Response(JSON.stringify({ error: "Missing required fields" }), { status: 400 });
+    try {
+      await sgMail.send({
+        to: "your-email@example.com",       // Receiver
+        from: "your-sendgrid-verified@example.com", // Must be verified sender
+        subject: subject,
+        text: `From: ${name} (${email})\n\n${message}`,
+      });
+
+      res.status(200).json({ message: "Email sent successfully!" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to send email" });
     }
-
-    const msg = {
-      to: process.env.TO_EMAIL,
-      from: process.env.FROM_EMAIL,
-      subject: `Next.js Contact Form: ${subject}`,
-      html: `<p><strong>Name:</strong> ${name}</p>
-             <p><strong>Email:</strong> ${email}</p>
-             <p><strong>Message:</strong> ${message}</p>`,
-    };
-
-    await sgMail.send(msg);
-
-    return new Response(JSON.stringify({ success: true, message: "Email sent successfully!" }), { status: 200 });
-  } catch (error) {
-    console.error("SendGrid Error:", error.response ? error.response.body : error.message);
-    return new Response(JSON.stringify({ error: "Failed to send email" }), { status: 500 });
+  } else {
+    res.status(405).json({ error: "Method not allowed" });
   }
 }
+

@@ -49,16 +49,17 @@ function Page() {
     const result = await res.json();
 
     if (res.ok) {
-      alert(result.message);
-      setmessage({ name: "", email: "", subject: "", message: "" });
+      alert(result.message || "Mail sent successfully!");
+      setMessage({ name: "", email: "", subject: "", message: "" }); // 
     } else {
-      alert(result.error);
+      alert(result.error || "Something went wrong on server!");
     }
   } catch (err) {
     console.error(err);
-    alert("Something went wrong!");
+    alert(`Something went wrong! ${err.message}`);
   }
 };
+
 
 
 

@@ -16,7 +16,7 @@ function page() {
 
           <h1 className="text-3xl md:text-4xl font-bold text-purple-800 mb-4">About BreedSense</h1>
 
-          <p className="text-justify mb-3"> BreedSense is an intelligent, image-based breed recognition platform designed to transform livestock
+          <p className="text-justify mb-3">&nbsp;BreedSense is an intelligent, image-based breed recognition platform designed to transform livestock
             management and conservation in India. By harnessing the power of artificial intelligence, computer vision,
             and data analytics, BreedSense enables accurate identification of indigenous cattle and buffalo breeds—such
             as Gir, Sahiwal, Murrah, Mehsana, and many more—directly from images.
